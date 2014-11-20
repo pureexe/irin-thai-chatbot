@@ -1,0 +1,204 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="rivescript.min.js"></script>
+<style>
+.chat
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+    margin-right: 60px;
+}
+
+
+.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.panel-body
+{
+    overflow-y: scroll;
+    height: 80%;
+}
+.row{
+    height: 100%;
+}
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+</style>
+<script>
+var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return v.toString(16);
+});
+// Create our RiveScript interpreter.
+var rs = new RiveScript({
+	debug_div: "debug",
+	debug:     debugMode
+});
+
+// Load our files from the brain/ folder.
+rs.loadFile([
+	"brain/begin.rive",
+	"brain/admin.rive",
+	"brain/clients.rive",
+	"brain/eliza.rive",
+	"brain/myself.rive",
+	"brain/rpg.rive",
+	"brain/javascript.rive"
+	], on_load_success, on_load_error);
+function on_load_success () {
+	$("#msg-in").removeAttr("disabled");
+	$("#msg-in").attr("placeholder", "Send message");
+	$("#msg-in").focus();
+	rs.sortReplies();
+}
+
+function on_load_error (err) {
+	console.log("Loading error: " + err);
+}
+
+function sendMSG(){
+	var msg = $("#msg-in").val();
+	 $("#msg-in").val("");
+	$("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='https://placehold.it/50/FA6F57/fff&text=ME' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
+	try {
+		var reply = rs.reply("user", msg);
+		reply = reply.replace(/\n/g, "<br>");
+		$("#chat-display").append("<li class='left clearfix'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
+		$(".panel-body").scrollTop($('#chat-display').height());
+	} catch(e) {
+		window.alert(e.message + "\n" + e.line);
+		console.log(e);
+	}
+
+	$.get("https://irin.pureapp.in.th/api.php?convo_id="+uniqueid+"&say="+msg+"&format=json",function(data){
+		data =JSON.parse(data);
+		$(".panel-body").scrollTop($('#chat-display').height());
+	})
+	
+}
+var elem = document.getElementById("msg-in");
+elem.onkeyup = function(e){
+    if(e.keyCode == 13){
+       sendMSG();
+    }
+}
+</script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+		<div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-comment"></span> ไอริน
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-time"></span>
+									แบ่งปัน</a></li>
+                            <li class="divider"></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
+								แจ้งปัญหา</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="chat" id="chat-display">
+                        <li class="left clearfix">
+							<span class="chat-img pull-left">
+								<img src="https://placehold.it/50/55C1E7/fff&text=IRIN" alt="User Avatar" class="img-circle" />
+							</span>
+							<div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">ไอริน</strong>
+                                </div>
+                                <p>
+									สวัสดีค่ะ หนูชื่อไอริน ยินดีที่่ได้พบกันนะคะ
+                                </p>
+                            </div>
+                        </li>
+						<!-- 
+
+						 <li class="left clearfix">
+							<span class="chat-img pull-left">
+								<img src="http://placehold.it/50/55C1E7/fff&text=IRIN" alt="User Avatar" class="img-circle" />
+							</span>
+							<div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">ไอริน</strong> 
+                                </div>
+                                <p>
+									คำพูดไอริน 
+                                </p>
+                            </div>
+                        </li> -->
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+           				<span class="input-group-btn">
+                            <a class="btn btn-default btn-sm" id="btn-chat" href="https://goo.gl/forms/nqq95wtwjC" target="_blank">
+								สอนศัพท์ใหม่</a>
+                        </span>
+						<input id="msg-in" type="text" class="form-control input-sm" placeholder="Loading..." disabled/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-sm" id="btn-chat" onclick="sendMSG()">
+								ส่งข้อความ</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
