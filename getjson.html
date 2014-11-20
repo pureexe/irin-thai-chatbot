@@ -6,6 +6,7 @@
 	$.get("tdict-std.txt",function(data){
 		var out = data.split(/[\r\n]+/).filter(function(w) { return w.length > 1; });
 		out = JSON.stringify(data);
+		console.log(out);
 	});
 })
 </script>
