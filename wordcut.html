@@ -8,9 +8,9 @@
 var wordcut = require("wordcut");
 wordcut.init();
 $(document).ready(function(){ 					   
-	$("#out").val(wordcut.cut($("#box").val()));
+	$("#out").html(wordcut.cut($("#box").val()));
 	$("#box").keydown(function(){
-		$("#out").val(wordcut.cut($("#box").val()));
+		$("#out").html(wordcut.cut($("#box").val()));
 	});
 });
 </script>
