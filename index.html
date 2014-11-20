@@ -115,11 +115,6 @@ function sendMSG(){
 		window.alert(e.message + "\n" + e.line);
 		console.log(e);
 	}
-
-	$.get("https://irin.pureapp.in.th/api.php?convo_id="+uniqueid+"&say="+msg+"&format=json",function(data){
-		data =JSON.parse(data);
-		$(".panel-body").scrollTop($('#chat-display').height());
-	})
 	
 }
 document.getElementById("msg-in").onkeyup = function(e){
