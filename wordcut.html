@@ -9,7 +9,7 @@ var wordcut = require("wordcut");
 wordcut.init();
 $(document).ready(function(){ 					   
 	$("#out").html(wordcut.cut($("#box").val()));
-	$("#box").keydown(function(){
+	$("#box").change(function(){
 		$("#out").html(wordcut.cut($("#box").val()));
 	});
 });
