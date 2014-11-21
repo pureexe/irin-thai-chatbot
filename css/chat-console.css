@@ -72,4 +72,7 @@
     position:relative;
     padding-bottom: 100px;
     margin-bottom: 0px;
+ }
+.col-md-8{
+    padding: 0px;
 }

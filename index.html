@@ -5,9 +5,12 @@
     <title>คุยกับไอริน</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/chat-console.css">
+<style>
+</style>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/rivescript.js"></script>
+<script src="js/wordcut.min.js"></script>
 <script>
 var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -18,6 +21,9 @@ var rs = new RiveScript({
 	debug_div: "debug",
 	debug:     false
 });
+var wordcut = require('wordcut');
+wordcut.init();
+
 
 // Load our files from the brain/ folder.
 rs.loadFile([
@@ -35,13 +41,20 @@ function on_load_success () {
 function on_load_error (err) {
 	console.log("Loading error: " + err);
 }
+    
+function cutthai(msg){
+    msg = wordcut.cut(msg);
+    msg = msg.replace(/\|/g," ");
+    msg = msg.replace("   "," ");
+    return msg;
+}
 
 function sendMSG(){
 	var msg = $("#msg-in").val();
 	 $("#msg-in").val("");
-	$("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='https://placehold.it/50/FA6F57/fff&text=ME' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
+	 $("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='https://placehold.it/50/FA6F57/fff&text=ME' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
 	try {
-		var reply = rs.reply("user", msg);
+		var reply = rs.reply("user", cutthai(msg));
 		reply = reply.replace(/\n/g, "<br>");
 		$("#chat-display").append("<li class='left clearfix'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
 		$(".panel-body").scrollTop($('#chat-display').height());

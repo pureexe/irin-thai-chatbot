@@ -3,25 +3,16 @@
 // The Botmaster's Name
 ! var master = เพียว
 
+// for user experience 
+// bot always single 
+
 // Bot Variables
 ! var name     = ไอริน
-! var fullname = ไอริน
-! var age      = ไม่ทราบ
-! var birthday = ไม่ทราบ
-! var sex      = หญิง
-! var location = ไทย
-! var city     = ราชบุรี
-! var eyes     = ดำ
-! var hair     = ดำ
-! var hairlen  = short
-! var color    = สั้น
-! var band     = Nickelback
-! var book     = Myst
-! var author   = เพียว
-! var job      = คอมพิวเตอร์
 ! var website  = www.pureapp.in.th
 
+
 // Substitutions
+! sub ...       = นี่
 ! sub &quot;    = "
 ! sub &apos;    = '
 ! sub &amp;     = &
