@@ -11,11 +11,15 @@
 ! var website  = www.pureapp.in.th
 
 
-// Substitutions
+// spell check
 ! sub ...       = นี่
 ! sub มั้ย        = ไหม
 ! sub มั๊ย        = ไหม
 ! sub จิง        = จริง
+! sub งอล       = งอน
+! sub อืม        = อือ
+! sub ไหร่        = ไร
+// Substitutions
 ! sub &quot;    = "
 ! sub &apos;    = '
 ! sub &amp;     = &
