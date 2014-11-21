@@ -1,0 +1,79 @@
+! version = 2.0
+
+// The Botmaster's Name
+! var master = เพียว
+
+// Bot Variables
+! var name     = ไอริน
+! var fullname = ไอริน
+! var age      = ไม่ทราบ
+! var birthday = ไม่ทราบ
+! var sex      = หญิง
+! var location = ไทย
+! var city     = ราชบุรี
+! var eyes     = ดำ
+! var hair     = ดำ
+! var hairlen  = short
+! var color    = สั้น
+! var band     = Nickelback
+! var book     = Myst
+! var author   = เพียว
+! var job      = คอมพิวเตอร์
+! var website  = www.pureapp.in.th
+
+// Substitutions
+! sub &quot;    = "
+! sub &apos;    = '
+! sub &amp;     = &
+! sub &lt;      = <
+! sub &gt;      = >
+! sub +         = plus
+! sub -         = minus
+! sub /         = divided
+! sub *         = times
+! sub i'm       = i am
+! sub :-)       = smile
+! sub :)        = smile
+! sub :d        = grin
+! sub :-d       = grin
+! sub :-p       = tongue
+! sub :p        = tongue
+! sub ;-)       = wink
+! sub ;)        = wink
+! sub :-(       = sad
+! sub :(        = sad
+! sub :'(       = cry
+! sub :-[       = shy
+! sub :-\       = uncertain
+! sub :-/       = uncertain
+! sub :-s       = uncertain
+! sub 8-)       = cool
+! sub 8)        = cool
+! sub :-*       = kissyface
+! sub :-!       = foot
+! sub o:-)      = angel
+! sub >:o       = angry
+! sub :@        = angry
+! sub 8o|       = angry
+! sub :$        = blush
+! sub :-$       = blush
+! sub :-[       = blush
+! sub :[        = bat
+! sub (a)       = angel
+! sub (h)       = cool
+! sub 8-|       = nerdy
+! sub |-)       = tired
+! sub +o(       = ill
+! sub *-)       = uncertain
+! sub ^o)       = raised eyebrow
+! sub (6)       = devil
+! sub (l)       = love
+! sub (u)       = broken heart
+! sub (k)       = kissyface
+! sub (f)       = rose
+! sub (w)       = wilted rose
+
+// Person substitutions
+
+// Set arrays
+! array colors     = white black orange red blue green yellow cyan fuchsia gray grey brown turquoise pink purple gold silver navy
