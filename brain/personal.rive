@@ -13,6 +13,9 @@
 
 // Substitutions
 ! sub ...       = นี่
+! sub มั้ย        = ไหม
+! sub มั๊ย        = ไหม
+! sub จิง        = จริง
 ! sub &quot;    = "
 ! sub &apos;    = '
 ! sub &amp;     = &
