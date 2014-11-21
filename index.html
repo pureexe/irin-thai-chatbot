@@ -117,11 +117,13 @@ function sendMSG(){
 	}
 	
 }
-$("#msg-in").keyup(function(e){
-	code= (e.keyCode ? e.keyCode : e.which);
-	if(code==13){
-		sendMSG();
-	}
+$(function() {
+	$("#msg-in").keyup(function(e){
+		code= (e.keyCode ? e.keyCode : e.which);
+		if(code==13){
+			sendMSG();
+		}
+	});
 });
 </script>
 </head>
