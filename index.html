@@ -117,11 +117,12 @@ function sendMSG(){
 	}
 	
 }
-document.getElementById("msg-in").onkeyup = function(e){
-    if(e.keyCode == 13){
-       sendMSG();
-    }
-}
+$("#msg-in").keyup(function(e){
+	code= (e.keyCode ? e.keyCode : e.which);
+	if(code==13){
+		sendMSG();
+	}
+});
 </script>
 </head>
 <body>
