@@ -9,6 +9,7 @@
 // Bot Variables
 ! var name     = ไอริน
 ! var website  = www.pureapp.in.th
+! var teachurl  = goo.gl/forms/nqq95wtwjC
 
 
 // spell check
@@ -21,16 +22,25 @@
 ! sub ไหร่        = ไร
 ! sub เปน        = เป็น
 ! sub เปง        = เป็น
+! sub คุณ        = เธอ
+! sub หรา        = หรอ
+! sub ครัล        = ครับ
+! sub ครัช        = ครับ
+! sub คุวย        = ควย
+! sub ค๊วย        = ควย
+! sub kuy        = ควย
+! sub ค๊าบ        = ครับ
+! sub คร๊าบ        = ครับ
 // Substitutions
 ! sub &quot;    = "
 ! sub &apos;    = '
 ! sub &amp;     = &
 ! sub &lt;      = <
 ! sub &gt;      = >
-! sub +         = plus
-! sub -         = minus
-! sub /         = divided
-! sub *         = times
+! sub +         = บวก
+! sub -         = ลบ
+! sub /         = หาร
+! sub *         = คูณ
 ! sub i'm       = i am
 ! sub :-)       = smile
 ! sub :)        = smile
