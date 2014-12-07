@@ -6,7 +6,7 @@
             $(function() {
 				$.get("tdict-std.txt",function(data){
 					data = data.split("\n").filter(function(w) { return w.length > 1; }).sort();
-					$("#a").html(JSON.stringify(data));
+					$("#a").html(JSON.stringify(data,null,2));
 				})
             });
 

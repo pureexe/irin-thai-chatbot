@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RiveScript-JS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="chatdebug-chat.css">
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="chatdebug-datadumper.js"></script>
+<script type="text/javascript" src="../js/rivescript.js"></script>
+<script src="../js/wordcut.min.js"></script>
+</head>
+<body>
+
+<h1>Chat</h1>
+
+<fieldset>
+	<legend>Chat Log</legend>
+	<div id="dialogue"></div>
+</fieldset>
+
+<form onSubmit="return sendMessage()">
+	<fieldset>
+		<legend>Send a Message</legend>
+
+		<table border="0" cellspacing="4" cellpadding="4" width="100%">
+			<tr>
+				<td align="left" valign="middle">
+					<input type="text" size="40" name="message" id="message" autocomplete="off" disabled placeholder="Please wait... loading...">
+				</td>
+				<td width="10" align="center" valign="middle">
+					<input type="submit" value="Send">
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+</form>
+
+<fieldset>
+	<legend>Debugger</legend>
+
+	<input type="button" value="Debug Mode" id="toggle" onClick="toggleDebug()">
+	<input type="button" value="Clear Log" onClick="$('#debug').empty()">
+	<input type="button" value="Dump Data Structure" onClick="DumperPopup(rs)">
+
+	<div id="debug"></div>
+</fieldset>
+
+<script type="text/javascript">
+// Handle the debug mode query string parameter.
+var debugMode = false;
+if (window.location.search.indexOf("debug=1") > -1) {
+	$("#toggle").val("Disable Debug Mode");
+	debugMode = true;
+} else {
+	$("#toggle").val("Enable Debug Mode");
+}
+
+// Create our RiveScript interpreter.
+var rs = new RiveScript({
+	debug_div: "debug",
+	debug:     debugMode
+});
+var wordcut = require('wordcut');
+wordcut.init();
+
+    
+// This won't work on the web!
+rs.loadDirectory("brain");
+
+// Load our files from the brain/ folder.
+rs.loadFile([
+	"../brain/personal.rive",
+	"../brain/irin.rive",
+	"../brain/alice.rive",
+	"../brain/javascript.rive"
+	], on_load_success, on_load_error);
+
+function on_load_success () {
+	$("#message").removeAttr("disabled");
+	$("#message").attr("placeholder", "Send message");
+	$("#message").focus();
+
+	// Now to sort the replies!
+	rs.sortReplies();
+}
+
+function on_load_error (err) {
+	console.log("Loading error: " + err);
+}
+
+function cutthai(msg){
+    var lastchar = msg.charAt(msg.length - 1);
+    if(lastchar=="?"){
+        msg = msg.substr(0,msg.length-1);
+    }
+    msg = wordcut.cut(msg);
+    console.log(msg);
+    msg = msg.replace(/\|/g," ");
+    msg = msg.replace("   "," ");
+    return msg;
+}    
+    
+// Handle sending a message to the bot.
+function sendMessage () {
+	var text = $("#message").val();
+    text = cutthai(text);
+	$("#message").val("");
+	$("#dialogue").append("<div><span class='user'>You:</span> " + text + "</div>");
+	try {
+	var reply = rs.reply("soandso", text);
+	reply = reply.replace(/\n/g, "<br>");
+	$("#dialogue").append("<div><span class='bot'>Bot:</span> " + reply + "</div>");
+	$("#dialogue").animate({ scrollTop: $("#dialogue").height() }, 1000);
+	} catch(e) {
+		window.alert(e.message + "\n" + e.line);
+		console.log(e);
+	}
+
+	return false;
+}
+
+// Button that turns debugging on and off.
+function toggleDebug () {
+	if (debugMode) {
+		window.location = "?debug=0";
+	} else {
+		window.location = "?debug=1";
+	}
+}
+
+</script>
+
+</body>
+</html>

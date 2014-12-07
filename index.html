@@ -12,10 +12,10 @@
 <script src="js/rivescript.js"></script>
 <script src="js/wordcut.min.js"></script>
 <script>
-var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+/*var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
     return v.toString(16);
-});
+});*/
 // Create our RiveScript interpreter.
 var rs = new RiveScript({
 	debug_div: "debug",
@@ -27,8 +27,9 @@ wordcut.init();
 
 // Load our files from the brain/ folder.
 rs.loadFile([
-	"brain/personal.rive",
+	"brain/spellcheck.rive",
 	"brain/irin.rive",
+	"brain/date.rive",
 	"brain/javascript.rive"
 	], on_load_success, on_load_error);
 function on_load_success () {
@@ -58,8 +59,18 @@ function sendMSG(){
 	 $("#msg-in").val("");
 	 $("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='https://placehold.it/50/FA6F57/fff&text=ME' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
 	try {
+
 		var reply = rs.reply("user", cutthai(msg));
 		reply = reply.replace(/\n/g, "<br>");
+		if(reply=="ขออภัยค่ะ ไอรินไม่เข้าใจค่ะ ช่วยสอนไอรินเพิ่มด้วยนะคะ"){
+			if(sessionStorage.length==0){
+				$.get("https://log.pureapp.in.th/irin/add.php?c="+msg);
+			} else {
+				$.get("https://log.pureapp.in.th/irin/add.php?c="+msg+"&p="+sessionStorage.old);
+			}
+		}else{
+			sessionStorage.old = reply;
+		}
 		$("#chat-display").append("<li class='left clearfix'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
 		$(".panel-body").scrollTop($('#chat-display').height());
 	} catch(e) {

@@ -1,16 +1,3 @@
-! version = 2.0
-
-// The Botmaster's Name
-! var master = เพียว
-
-// for user experience 
-// bot always single 
-
-// Bot Variables
-! var name     = ไอริน
-! var website  = www.pureapp.in.th
-! var teachurl  = goo.gl/forms/nqq95wtwjC
-
 
 // spell check
 ! sub ...       = นี่
@@ -31,6 +18,15 @@
 ! sub kuy        = ควย
 ! sub ค๊าบ        = ครับ
 ! sub คร๊าบ        = ครับ
+! sub ครัช        = ครับ
+! sub จ๊          = จ้า
+! sub จ๊ะ          = จ้า
+! sub จ้ะ          = จ้า
+! sub คร้า          = ค่ะ
+! sub เท่าไหร่          = เท่าไร
+! sub ยุ          = อยู่
+! sub ป่ะ          = ปะ
+
 // Substitutions
 ! sub &quot;    = "
 ! sub &apos;    = '

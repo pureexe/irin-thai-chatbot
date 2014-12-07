@@ -1775,8 +1775,8 @@
 					}
 				} else {
 					// Non-atomic triggers always need the regexp.
-					var match = msg.match(new RegExp('^' + regexp + '$'));
-					if (match) {
+                    var match = msg.match(new RegExp('^' + regexp + '$')); //need fix for thai language support
+                    if (match) {
 						// The regexp matched!
 						isMatch = true;
 
