@@ -15,10 +15,22 @@
 	return parseInt(a) - parseInt(b);
 < object
 
+> object goldprice javascript
+    // http://www.thaigold.info/RealTimeDataV2/gtdata_.txt
+    console.log("DDD");
+    $.get("http://www.thaigold.info/RealTimeDataV2/gtdata_.txt",function(data){
+        console.log(data);
+        return "ok";
+    });
+    
+    return "ff";
+< object
 
-+  * บวก *
++  * บวก * [เท่า กับ|มี ค่า] [เท่า ไร]
 - <star1> + <star2> = <call>add <star1> <star2></call>
 
-+  * ลบ *
++  * ลบ * [เท่า กับ|มี ค่า] [เท่า ไร]
 - <star1> - <star2> = <call>minus <star1> <star2></call>
 
++ ราคา ทอง
+- ราคาทองวันนี้<call>goldprice</call>
