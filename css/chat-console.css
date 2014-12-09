@@ -11,6 +11,7 @@ display: block!important;
 float: left !important;
 }
 
+
 .navbar-nav.navbar-right:last-child {
 margin-right: -15px !important;
 }
