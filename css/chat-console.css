@@ -56,9 +56,8 @@ body {
 }
 .panel-footer{
     height: 60px;
-    width: inherit;
     bottom: 0px;
-    position:fixed;
+    position:absolute;
 }
 
 ::-webkit-scrollbar-track
