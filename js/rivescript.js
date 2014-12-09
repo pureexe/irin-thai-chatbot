@@ -1,3 +1,26 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2014 Noah Petherbridge
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 (function(publish) {
 	// JavaScript Object Handler Method
 	/**
@@ -54,14 +77,14 @@
 	////////////////////////////////////////////////////////////////////////////
 	// Constructor and Debug Methods                                          //
 	////////////////////////////////////////////////////////////////////////////
-	
+
 	// Constants.
-	var VERSION    = "1.03";
+	var VERSION    = "1.0.5";
 	var RS_VERSION = "2.0";
 
 	/**
 	 * RiveScript (hash options)
-	 * 
+	 *
 	 * Create a new RiveScript interpreter. options is a hash:
 	 *
 	 * bool debug:     Debug mode            (default false)
@@ -74,6 +97,7 @@
 		this._debug   = false;
 		this._strict  = true;
 		this._depth   = 50;
+		this._utf8    = true;
 		this._div     = undefined;
 
 		// Identify our runtime environment. Web, or NodeJS?
@@ -121,6 +145,9 @@
 				if (this._div.indexOf("#") != 0) {
 					this._div = "#" + this._div;
 				}
+			}
+			if (opts["utf8"]) {
+				this._utf8 = !!opts["utf8"];
 			}
 		}
 
@@ -571,7 +598,7 @@
 			switch(cmd) {
 				case '!': // ! DEFINE
 					var halves = line.split("=", 2);
-					var left   = this._strip(halves[0]).split(" ", 2);
+					var left   = this._strip(halves[0]).split(" ");
 					var value = type = name = '';
 					if (halves.length == 2) {
 						value = this._strip(halves[1]);
@@ -758,7 +785,7 @@
 						// Only try to parse a language we support.
 						ontrig = '';
 						if (lang == undefined) {
-							self.warn("Trying to parse unknown programming language", fname, lineno);
+							this.warn("Trying to parse unknown programming language", fname, lineno);
 							lang = 'javascript'; // Assume it's JS
 						}
 
@@ -903,8 +930,14 @@
 			// - All brackets should be matched.
 			var parens = square = curly = angle = 0; // Count the brackets
 
-            // Look for obvious errors first.
-			if (line.match(/[^a-z0-9ก-๙(|)\[\]*_#@{}<>=\s]/)) { // ก-๙ is using for thai language support
+			// Look for obvious errors first.
+			if (this._utf8) {
+				// In UTF-8 mode, most symbols are allowed.
+				if (line.match(/[A-Z\\.]/)) {
+					return "Triggers can't contain uppercase letters, backslashes or dots in UTF-8 mode.";
+				}
+			}
+			else if (line.match(/[^a-z0-9(|)\[\]*_#@{}<>=\s]/)) {
 				return "Triggers may only contain lowercase letters, numbers, and these symbols: ( | ) [ ] * _ # @ { } < > =";
 			}
 
@@ -1232,8 +1265,12 @@
 					var kind = kinds[k];
 					var kind_sorted = Object.keys(track[ip][kind]).sort(function(a,b) { return b-a });
 					for (var l = 0, lend = kind_sorted.length; l < lend; l++) {
-						var item = kind_sorted[l];
-						running.push.apply(running, track[ip][kind][item]);
+						var wordcnt = kind_sorted[l];
+
+						// Triggers with equal word lengths should be sorted by
+						// overall trigger length.
+						var sorted_by_length = track[ip][kind][wordcnt].sort(function(a,b) { return b.length-a.length })
+						running.push.apply(running, sorted_by_length);
 					}
 				}
 
@@ -1566,8 +1603,7 @@
 		this._current_user = user;
 
 		// Format their message.
-		 msg = this._format_message(msg); 
-        
+		msg = this._format_message(msg);
 
 		var reply = '';
 
@@ -1600,15 +1636,28 @@
 	};
 
 	// Format a user's message for safe processing.
-	RiveScript.prototype._format_message = function (msg) {
+	RiveScript.prototype._format_message = function (msg, botreply) {
 		// Lowercase it.
 		msg = "" + msg;
 		msg = msg.toLowerCase();
 
 		// Run substitutions and sanitize what's left.
 		msg = this._substitute(msg, "subs");
-        
-        msg = this._strip_nasties(msg); 
+
+		// In UTF-8 mode, only strip metacharacters and HTML brackets
+		// (to protect from obvious XSS attacks).
+		if (this._utf8) {
+			msg = msg.replace(/[\\<>]+/, "");
+
+			// For the bot's reply, also strip common punctuation.
+			if (botreply) {
+				msg = msg.replace(/[.?,!;:@#$%^&*()]/, "");
+			}
+		}
+		else {
+			// For evertyhing else, strip all non-alphanumerics.
+			msg = this._strip_nasties(msg);
+		}
 
 		return msg;
 	};
@@ -1700,7 +1749,7 @@
 					var lastReply = this._users[user]["__history__"]["reply"][0];
 
 					// Format the bot's last reply the same way as the human's.
-					lastReply = this._format_message(lastReply);
+					lastReply = this._format_message(lastReply, true);
 					this.say("Last reply: " + lastReply);
 
 					// See if it's a match.
@@ -1775,8 +1824,8 @@
 					}
 				} else {
 					// Non-atomic triggers always need the regexp.
-                    var match = msg.match(new RegExp('^' + regexp + '$')); //need fix for thai language support
-                    if (match) {
+					var match = msg.match(new RegExp('^' + regexp + '$'));
+					if (match) {
 						// The regexp matched!
 						isMatch = true;
 
@@ -1793,7 +1842,7 @@
 				// A match somehow?
 				if (isMatch) {
 					this.say("Found a match!");
-					
+
 					// We found a match, but what if the trigger we've matched
 					// doesn't belong to our topic? Find it!
 					if (!this._topics[topic][trig]) {
@@ -1968,6 +2017,8 @@
 				var name  = match[1];
 				var value = match[2];
 				this._users[user][name] = value;
+				reply = reply.replace(new RegExp("<set " + this.quotemeta(name) + "=" + this.quotemeta(value) + ">","ig"), "");
+				match = reply.match(/<set (.+?)=(.+?)>/i);
 			}
 		} else {
 			// Process more tags if not in BEGIN.
@@ -1986,7 +2037,7 @@
 		// Simple replacements.
 		regexp = regexp.replace(/\*/g, "(.+?)");  // Convert * into (.+?)
 		regexp = regexp.replace(/#/g,  "(\\d+?)"); // Convert # into (\d+?)
-		regexp = regexp.replace(/_/g,  "([A-Za-z]+?)"); // Convert _ into (\w+?)
+		regexp = regexp.replace(/_/g,  "(\\w+?)"); // Convert _ into (\w+?)
 		regexp = regexp.replace(/\{weight=\d+\}/g, ""); // Remove {weight} tags
 		regexp = regexp.replace(/<zerowidthstar>/g, "(.*?)");
 
@@ -2018,6 +2069,12 @@
 				"(?:" + pipes + ")");
 			match  = regexp.match(/\[(.+?)\]/); // Circle of life!
 		}
+
+		// _ wildcards can't match numbers! Quick note on why I did it this way:
+		// the initial replacement above (_ => (\w+?)) needs to be \w because
+		// the square brackets in [A-Za-z] will confuse the optionals logic just
+		// above. So then we switch it back out down here.
+		regexp = regexp.replace(/\\w/, "[A-Za-z]");
 
 		// Filter in arrays.
 		var giveup = 0;
@@ -2077,6 +2134,8 @@
 
 		// Filter in <input> and <reply> tags.
 		if (regexp.indexOf("<input") > -1 || regexp.indexOf("<reply") > -1) {
+			regexp = regexp.replace(/<input>/i, "<input1>");
+			regexp = regexp.replace(/<reply>/i, "<reply1>");
 			var types = ["input", "reply"];
 			for (var i = 0; i < 2; i++) {
 				var type = types[i];
@@ -2204,160 +2263,108 @@
 			}
 		}
 
-		// Bot variables: set
-		match = reply.match(/<bot ([^>]+?)=([^>]+?)>/i);
-		giveup = 0;
-		while (match) {
-			giveup++;
-			if (giveup >= 50) {
-				this.warn("Infinite loop looking for bot set tag!");
-				break;
+		// Handle all variable-related tags with an iterative regex approach,
+		// to allow for nesting of tags in arbitrary ways (think <set a=<get b>>)
+		// Dummy out the <call> tags first, because we don't handle them right
+		// here.
+		reply = reply.replace(/<call>/ig, "{__call__}");
+		reply = reply.replace(/<\/call>/ig, "{/__call__}");
+		while (true) {
+			// This regex will match a <tag> which contains no other tag inside
+			// it, i.e. in the case of <set a=<get b>> it will match <get b> but
+			// not the <set> tag, on the first pass. The second pass will get
+			// the <set> tag, and so on.
+			match = reply.match(/<([^<]+?)>/);
+			if (!match)
+				break; // No remaining tags!
+
+			match = match[1];
+			var parts = match.split(" ", 2);
+			var tag   = parts[0].toLowerCase();
+			var data  = "";
+			if (parts.length > 1) {
+				data = parts[1];
 			}
+			var insert = "";
 
-			var name  = match[1];
-			var value = match[2];
-			this._bvars[name] = value;
-
-			reply = reply.replace(new RegExp("<bot " + this.quotemeta(name) + "=" + this.quotemeta(value) + ">","ig"),
-				"");
-			match = reply.match(/<bot ([^>]+?)=([^>]+?)>/i);
-		}
-
-		// Bot variables: get
-		match = reply.match(/<bot ([^>]+?)>/i);
-		giveup = 0;
-		while (match) {
-			giveup++;
-			if (giveup >= 50) {
-				this.warn("Infinite loop looking for bot tag!");
-				break;
+			// Handle the tags.
+			if (tag === "bot" || tag === "env") {
+				// <bot> and <env> tags are similar.
+				var target = tag === "bot" ? this._bvars : this._gvars;
+				if (data.indexOf("=") > -1) {
+					var parts = data.split("=", 2);
+					this.say("Set " + tag + " variable " + parts[0] + " = " + parts[1]);
+					target[parts[0]] = parts[1];
+				}
+				else {
+					// Getting a bot/env variable.
+					insert = target[data] || "undefined";
+				}
 			}
-			var name = match[1];
-			var value = "undefined";
-			if (this._bvars[name]) {
-				value = this._bvars[name];
+			else if (tag === "set") {
+				// <set> user vars.
+				var parts = data.split("=", 2);
+				this.say("Set uservar " + parts[0] + " = " + parts[1]);
+				this._users[user][parts[0]] = parts[1];
 			}
-			reply = reply.replace(new RegExp("<bot " + this.quotemeta(name) + ">", "ig"), value);
-			match = reply.match(/<bot ([^>]+?)>/i); // Look for more
-		}
+			else if (tag === "add" || tag === "sub" || tag === "mult" || tag === "div") {
+				// Math operator tags.
+				var parts = data.split("=");
+				var name  = parts[0];
+				var value = parts[1];
 
-		// Global variables: set
-		match = reply.match(/<env ([^>]+?)=([^>]+?)>/i);
-		giveup = 0;
-		while (match) {
-			giveup++;
-			if (giveup >= 50) {
-				this.warn("Infinite loop looking for env set tag!");
-				break;
-			}
+				// Initialize the variable?
+				if (!this._users[user][name]) {
+					this._users[user][name] = 0;
+				}
 
-			var name  = match[1];
-			var value = match[2];
-			this._gvars[name] = value;
-
-			reply = reply.replace(new RegExp("<env " + this.quotemeta(name) + "=" + this.quotemeta(value) + ">","ig"),
-				"");
-			match = reply.match(/<env ([^>]+?)=([^>]+?)>/i);
-		}
-
-		// Global variables: get
-		match = reply.match(/<env ([^>]+?)>/i);
-		giveup = 0;
-		while (match) {
-			giveup++;
-			if (giveup >= 50) {
-				this.warn("Infinite loop looking for env tag!");
-				break;
-			}
-			var name = match[1];
-			var value = "undefined";
-			if (this._gvars[name]) {
-				value = this._gvars[name];
-			}
-			reply = reply.replace(new RegExp("<env " + this.quotemeta(name) + ">", "ig"), value);
-			match = reply.match(/<env ([^>]+?)>/i); // Look for more
-		}
-
-		// Set user vars.
-		match = reply.match(/<set ([^>]+?)=([^>]+?)>/i);
-		giveup = 0;
-		while (match) {
-			giveup++;
-			if (giveup >= 50) {
-				this.warn("Infinite loop looking for set tag!");
-				break;
-			}
-			var name  = match[1];
-			var value = match[2];
-			this._users[user][name] = value;
-			reply = reply.replace(new RegExp("<set " + this.quotemeta(name) + "=" + this.quotemeta(value) + ">", "ig"), "");
-			match = reply.match(/<set ([^>]+?)=([^>]+?)>/i); // Look for more
-		}
-
-		// Math tags.
-		var math = ["add", "sub", "mult", "div"];
-		for (var i = 0; i < 4; i++) {
-			var oper = math[i];
-			match  = reply.match(new RegExp("<" + oper + " ([^>]+?)=([^>]+?)>"));
-			giveup = 0;
-			while (match) {
-				var name   = match[1];
-				var value  = match[2];
-				var newval = 0;
-				var output = "";
-
-				// Sanity check.
+				// Sanity check
 				value = parseInt(value);
 				if (isNaN(value)) {
-					output = "[ERR: Math can't '" + oper + "' non-numeric value '" + match[2] + "']";
+					insert = "[ERR: Math can't '" + tag + "' non-numeric value '" + value + "']";
 				} else if (isNaN(parseInt(this._users[user][name]))) {
-					output = "[ERR: Math can't '" + oper + "' non-numeric user variable '" + name + "']";
+					insert = "[ERR: Math can't '" + tag + "' non-numeric user variable '" + name + "']";
 				} else {
-					var orig   = parseInt(this._users[user][name]);
-					if (oper == "add") {
+					var orig = parseInt(this._users[user][name]);
+					var newval = 0;
+					if (tag === "add") {
 						newval = orig + value;
-					} else if (oper == "sub") {
+					}
+					else if (tag === "sub") {
 						newval = orig - value;
-					} else if (oper == "mult") {
+					}
+					else if (tag === "mult") {
 						newval = orig * value;
-					} else if (oper == "div") {
-						if (value == 0) {
-							output = "[ERR: Can't Divide By Zero]";
+					}
+					else if (tag === "div") {
+						if (value === 0) {
+							insert = "[ERR: Can't Divide By Zero]"
 						} else {
 							newval = orig / value;
 						}
 					}
-				}
 
-				// No errors?
-				if (output == "") {
-					// Commit.
-					this._users[user][name] = newval;
+					// No errors?
+					if (insert === "") {
+						// Commit the change.
+						this._users[user][name] = newval;
+					}
 				}
-
-				reply = reply.replace(new RegExp("<" + oper + " " + this.quotemeta(name) + "=" + this.quotemeta(""+value) + ">", "i"),
-					output);
-				match = reply.match(new RegExp("<" + oper + " ([^>]+?)=([^>]+?)>"));
 			}
+			else if (tag === "get") {
+				insert = this._users[user][data] || "undefined";
+			}
+			else {
+				// Unrecognized tag, preserve it.
+				insert = "\x00" + match + "\x01";
+			}
+
+			reply = reply.replace(new RegExp("<" + match + ">"), insert);
 		}
 
-		// Get user vars.
-		match = reply.match(/<get (.+?)>/i);
-		giveup = 0;
-		while (match) {
-			giveup++;
-			if (giveup >= 50) {
-				this.warn("Infinite loop looking for get tag!");
-				break;
-			}
-			var name = match[1];
-			var value = "undefined";
-			if (this._users[user][name]) {
-				value = this._users[user][name];
-			}
-			reply = reply.replace(new RegExp("<get " + this.quotemeta(name) + ">","ig"), value);
-			match = reply.match(/<get (.+?)>/i); // Look for more
-		}
+		// Recover mangled HTML-like tags.
+		reply = reply.replace(/\x00/g, "<")
+		reply = reply.replace(/\x01/g, ">")
 
 		// Topic setter.
 		match = reply.match(/\{topic=(.+?)\}/i);
@@ -2392,6 +2399,8 @@
 		}
 
 		// Object caller.
+		reply = reply.replace(/\{__call__\}/g, "<call>");
+		reply = reply.replace(/\{\/__call__\}/g, "</call>");
 		match = reply.match(/<call>(.+?)<\/call>/i);
 		giveup = 0;
 		while (match) {
@@ -2447,37 +2456,41 @@
 			subs = this._person;
 		}
 
-		var notword = "([^A-Za-z0-9])";
-		notword = "(\\W+)";
+		// Make placeholders each time we substitute something.
+		var ph = [];
+		var pi = 0;
+
 		for (var i = 0, end = this._sorted["lists"][list].length; i < end; i++) {
 			var pattern = this._sorted["lists"][list][i];
-			var result  = "<rot13sub>" + this._rot13(subs[pattern]) + "<bus31tor>";
+			var result  = subs[pattern];
 			var qm      = this.quotemeta(pattern);
 
+			// Make a placeholder.
+			ph.push(result);
+			var placeholder = "\x00" + pi + "\x00";
+			pi++;
+
 			// Run substitutions.
-			msg = msg.replace(new RegExp("^" + qm + "$", "g"),           result);
-			msg = msg.replace(new RegExp("^" + qm + "(\\W+)", "g"),      result + "$1");
-			msg = msg.replace(new RegExp("(\\W+)" + qm + "(\\W+)", "g"), "$1" + result + "$2");
-			msg = msg.replace(new RegExp("(\\W+)" + qm + "$", "g"),      "$1"+result);
+			msg = msg.replace(new RegExp("^" + qm + "$", "g"),           placeholder);
+			msg = msg.replace(new RegExp("^" + qm + "(\\W+)", "g"),      placeholder + "$1");
+			msg = msg.replace(new RegExp("(\\W+)" + qm + "(\\W+)", "g"), "$1" + placeholder + "$2");
+			msg = msg.replace(new RegExp("(\\W+)" + qm + "$", "g"),      "$1"+placeholder);
 		}
 
-		// Convert the rot13-escaped placeholders back.
+		// Convert the placeholders back in.
 		var tries = 0;
-		while (msg.indexOf("<rot13sub>") > -1) {
+		while (msg.indexOf("\x00") > -1) {
 			tries++;
 			if (tries > 50) {
-				this.warn("Too many loops!");
+				this.warn("Too many loops in substitution placeholders!");
 				break;
 			}
 
-			var match = msg.match("<rot13sub>(.+?)<bus31tor>");
+			var match = msg.match("\\x00(.+?)\\x00");
 			if (match) {
-				var cap = match[1];
-				var decoded = this._rot13(cap);
-				msg = msg.replace(new RegExp("<rot13sub>" + this.quotemeta(cap) + "<bus31tor>", "g"), decoded);
-			} else {
-				this.warn("Unknown fatal error! Saw a <rot13sub> but the regexp to find it failed!");
-				return "";
+				var cap = parseInt(match[1]);
+				var result = ph[cap];
+				msg = msg.replace(new RegExp("\x00" + cap + "\x00", "g"), result);
 			}
 		}
 
@@ -2766,10 +2779,10 @@
 
 	// Strip nasties.
 	RiveScript.prototype._strip_nasties = function (string) {
-		string = string.replace(/[^A-Za-z0-9ก-๙ ]/g, ""); // ก-๙ is using for thai language support
+		string = string.replace(/[^A-Za-z0-9 ]/g, "");
 		return string;
 	};
-	
+
 	// HTML escape.
 	RiveScript.prototype._escape_html = function (string) {
 		string = string.replace(/&/g, "&amp;");
@@ -2839,4 +2852,3 @@
 })((typeof(module) == "undefined" && (typeof(window) != "undefined" && this == window))
 	? function(a) { this["RiveScript"] = a; }
 	: function(a) { module.exports     = a; });
-
