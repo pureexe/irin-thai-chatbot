@@ -98,14 +98,17 @@ float: right!important;
 
 .panel{
     height:100%;
-    position:relative;
+    position:fixed;
+    width: inherit;
     padding-bottom: 100px;
     margin-bottom: 0px;
  }
 .col-md-8{
     padding: 0px;
 }
-
+.col-md-2{
+    padding: 0px;
+}
 .no-transition {
   -webkit-transition: height 0;
   -moz-transition: height 0;
