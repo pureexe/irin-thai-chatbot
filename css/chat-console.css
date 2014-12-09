@@ -55,10 +55,9 @@ body {
     overflow-y: scroll;
 }
 .panel-footer{
-    height: 60px;
-    width: inherit;
+    height: 60px;;
     bottom: 0px;
-    position:fixed;
+    position:absolute;
 }
 
 ::-webkit-scrollbar-track
