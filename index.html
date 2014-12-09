@@ -17,10 +17,10 @@
     <script src="js/ripples.min.js"></script>
         <script src="js/material.min.js"></script>
 <script>
-/*var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
     return v.toString(16);
-});*/
+});
 // Create our RiveScript interpreter.
 var rs = new RiveScript({
 	debug_div: "debug",
@@ -67,15 +67,7 @@ function sendMSG(){
 
 		var reply = rs.reply("user", cutthai(msg));
 		reply = reply.replace(/\n/g, "<br>");
-		if(reply=="ขออภัยค่ะ ไอรินไม่เข้าใจค่ะ ช่วยสอนไอรินเพิ่มด้วยนะคะ"){
-			if(sessionStorage.length==0){
-				$.get("https://log.pureapp.in.th/irin/add.php?c="+msg);
-			} else {
-				$.get("https://log.pureapp.in.th/irin/add.php?c="+msg+"&p="+sessionStorage.old);
-			}
-		}else{
-			sessionStorage.old = reply;
-		}
+        $.get("https://log.pureapp.in.th/irin/add.php?c="+msg+"&p="+reply+"&uid="+uniqueid); // For Loging system
 		$("#chat-display").append("<li class='left clearfix'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
 		$(".panel-body").scrollTop($('#chat-display').height());
 	} catch(e) {
@@ -101,14 +93,14 @@ $(function() {
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-<div class="navbar navbar-default">
+<div class="navbar navbar-default ">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">ไอริน</a>
+        <a class="navbar-brand" href="#">คุยกับไอริน</a>
     </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
         <ul class="nav navbar-nav">
