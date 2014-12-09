@@ -5,12 +5,17 @@
     <title>คุยกับไอริน</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/chat-console.css">
+<link href="css/ripples.min.css" rel="stylesheet">
+<link href="css/material-wfont.min.css" rel="stylesheet">
 <style>
 </style>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/rivescript.js"></script>
 <script src="js/wordcut.min.js"></script>
+<script src="js/snackbar.min.js"></script>
+    <script src="js/ripples.min.js"></script>
+        <script src="js/material.min.js"></script>
 <script>
 /*var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -34,7 +39,7 @@ rs.loadFile([
 	], on_load_success, on_load_error);
 function on_load_success () {
 	$("#msg-in").removeAttr("disabled");
-	$("#msg-in").attr("placeholder", "Send message");
+	$("#msg-in").attr("placeholder", "ส่งข้อความ");
 	$("#msg-in").focus();
 	rs.sortReplies();
 }
@@ -96,19 +101,32 @@ $(function() {
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-comment"></span> ไอริน
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <ul class="dropdown-menu slidedown">
-                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-time"></span>
-									แบ่งปัน</a></li>
-                            <li class="divider"></li>
-                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
-								แจ้งปัญหา</a></li>
-                        </ul>
-                    </div>
+<div class="navbar navbar-default">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">ไอริน</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://goo.gl/forms/nqq95wtwjC" target="_blank">สอนศัพท์ใหม่</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">เกี่ยวกับ <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="https://about.me/PakkaponPH" target="_blank">สร้างโดย pureexe</a></li>
+                    <li><a href="https://github.com/pureexe/irin-thai-chatbot" target="_blank">ดาวน์โหลดโค้ด</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
                 </div>
                 <div class="panel-body">
                     <ul class="chat" id="chat-display">
@@ -129,14 +147,14 @@ $(function() {
                 </div>
                 <div class="panel-footer">
                     <div class="input-group">
-           				<span class="input-group-btn">
-                            <a class="btn btn-default btn-sm" id="btn-chat" href="https://goo.gl/forms/nqq95wtwjC" target="_blank">
+           				<!-- <span class="input-group-btn">
+                            <a class="btn btn-default btn-sm btn-raised" id="btn-chat" href="https://goo.gl/forms/nqq95wtwjC" target="_blank">
 								สอนศัพท์ใหม่</a>
-                        </span>
+                        </span> -->
 						<input id="msg-in" type="text" class="form-control input-sm" placeholder="Loading..." disabled/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-info btn-sm" id="btn-chat" onclick="sendMSG()">
-								ส่งข้อความ</button>
+                        <span class="input-group-btn" style="margin-left:5px;">
+                            <button class="btn btn-success btn-raised" id="btn-chat" onclick="sendMSG()">
+                                <span class="mdi-content-send"></span></button>
                         </span>
                     </div>
                 </div>
