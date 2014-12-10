@@ -1,0 +1,13 @@
+! version = 2.0
+// use for API support
++ [สภาพ] อากาศ
+- WebApi:weather:here:all
+
++ อุณหภูมิ [ตอน นี้|ขณะ นี้]
+- WebApi:weather:here:temp
+
++ [สภาพ] อากาศ (ที่|ณ|บริเวณ|รอบ) *
+- WebApi:weather:<star2>:all
+
++ อุณหภูมิ ที่ *
+- WebApi:weather:<star1>:temp
