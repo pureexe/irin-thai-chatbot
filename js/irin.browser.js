@@ -86,13 +86,24 @@ function sendMSG(word){
 	}
 }
 
-function botprint(reply){
-	$("#chat-display").append("<li class='left clearfix'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
+function botprint(reply,liid){
+	$("#chat-display").append("<li class='left clearfix' id='"+liid+"'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
                 if(isAndroid()){
                 $(window).scrollTop($('#chat-display').height());
             }else{
                 $(".panel-body").scrollTop($('#chat-display').height());
             }
+}
+function botloading(){
+	$("#chat-display").append("<li class='left clearfix' id='loading'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>loading...</p></div></li>");
+            if(isAndroid()){
+                $(window).scrollTop($('#chat-display').height());
+            }else{
+                $(".panel-body").scrollTop($('#chat-display').height());
+            }
+}
+function botremove(id){
+    $( "#"+id ).remove();
 }
 
 // Android Bundle
@@ -111,7 +122,11 @@ function WebApiBundle(reply){
             if (!navigator.geolocation){
                 botprint("เบาวเซอร์ของท่านเก่าเกินกว่าที่ไอรินจะหาตำแหน่งของท่านพบค่ะ");
             }else{
-                botprint("กรุณาอนุญาติให้ไอรินเข้าถึงตำแหน่งของคุณด้วยค่ะ");
+                if(isAndroid()){
+                    botprint("loading...","loading");
+                }else{
+                    botprint("กรุณาอนุญาติให้ไอรินเข้าถึงตำแหน่งของคุณด้วยค่ะ","loading");
+                }
                 navigator.geolocation.getCurrentPosition(function(position){
                         $.get("http://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
                             .done(function(data){
@@ -121,15 +136,17 @@ function WebApiBundle(reply){
                                 if(rep[2]=="temp"){
                                     botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียสค่ะ");
                                 }
+                                botremove("loading");
                             }).fail(function() {
                                 botprint("ขออภัยค่ะ ไอรินต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
-                                console.log("fail");
+                                botremove("loading");
                             });
                     }, function(){
                         botprint("ขออภัยคะ ไอรินไม่สามารถหาตำแหน่งของท่านได้");
                 });
             }
         }else{
+            botprint("loading...","loading");
             var loc = rep[1].replace(/ /g,'');
             if(loc=="กรุงเทพ"){
              loc = "กรุงเทพฯ";
@@ -142,9 +159,11 @@ function WebApiBundle(reply){
                     if(rep[2]=="temp"){
                         botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียสค่ะ");
                     }
+                           botremove("loading");
                     }).fail(function() {
                         botprint("ขออภัยค่ะ ไอรินต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
                         console.log("fail");
+                           botremove("loading");
                     });
         }
     }
