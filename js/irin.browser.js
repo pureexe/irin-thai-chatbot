@@ -87,7 +87,7 @@ function sendMSG(word){
 }
 
 function botprint(reply,liid){
-	$("#chat-display").append("<li class='left clearfix' id='"+liid+"'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
+	$("#chat-display").append("<li class='left clearfix' id='"+liid+"'><span class='chat-img pull-left'><img src='image/irin-thumb-50.png' alt='ไอริน' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
                 if(isAndroid()){
                 $(window).scrollTop($('#chat-display').height());
             }else{
@@ -131,7 +131,14 @@ function WebApiBundle(reply){
                         $.get("http://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
                             .done(function(data){
                                 if(rep[2]=="all"){
-                                    botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียส สภาพอากาศ"+weathearcode(""+data.weather[0].id));
+                                    var weat="";
+                                    console.log(data.weather);
+                                    data.weather.forEach(function(r){
+                                        weat+=weathearcode(""+r.id)+"/";
+                                    });
+                                    console.log(weat);
+                                    weat = weat.substring(0,weat.length-1);
+                                    botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียส "+weat);
                                 }
                                 if(rep[2]=="temp"){
                                     botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียสค่ะ");
@@ -154,10 +161,15 @@ function WebApiBundle(reply){
            $.get("http://api.openweathermap.org/data/2.5/weather?q="+loc+",th")
                 .done(function(data){
                     if(rep[2]=="all"){
-                        botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียส สภาพอากาศ"+weathearcode(""+data.weather[0].id));
+                        var weat="";
+                        data.weather.forEach(function(r){
+                            weat+=weathearcode(""+r.id)+"/";
+                        });
+                        weat = weat.substring(0,weat.length-1);
+                        botprint("ขณะนี้ที่"+loc+"อุณหภูมิ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียส "+weat);
                     }
                     if(rep[2]=="temp"){
-                        botprint("อุณหภูมิขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียสค่ะ");
+                        botprint("อุณหภูมิที่"+loc+"ขณะนี้ "+Math.round(data.main.temp-273.15)+" องศาเซลเซียสค่ะ");
                     }
                            botremove("loading");
                     }).fail(function() {

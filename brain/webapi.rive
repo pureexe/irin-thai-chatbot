@@ -1,5 +1,7 @@
 ! version = 2.0
 // use for API support
+
+// weather api by openweathermap
 + [สภาพ] อากาศ
 - WebApi:weather:here:all
 
@@ -11,3 +13,6 @@
 
 + อุณหภูมิ ที่ *
 - WebApi:weather:<star1>:temp
+
++ (ตอน นี้|ที่) * (ฝน ตก|หนาว|ร้อน) [ไหม]
+- WebApi:weather:<star2>:temp
