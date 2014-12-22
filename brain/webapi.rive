@@ -2,7 +2,7 @@
 // use for API support
 
 // weather api by openweathermap
-+ [สภาพ] อากาศ
++ [สภาพ] อากาศ [วัน นี้]
 - WebApi:weather:here:all
 
 + อุณหภูมิ [ตอน นี้|ขณะ นี้]
