@@ -2110,7 +2110,7 @@ SOFTWARE.
 				if (this._bvars[name]) {
 					rep = this._strip_nasties(this._bvars[name]);
 				}
-				regexp = regexp.replace(new RegExp("<bot " + this.quotemeta(name) + ">"), rep);
+				regexp = regexp.replace(new RegExp("<bot " + this.quotemeta(name) + ">"), rep.toLowerCase());
 			}
 		}
 
@@ -2779,6 +2779,11 @@ SOFTWARE.
 
 	// Strip nasties.
 	RiveScript.prototype._strip_nasties = function (string) {
+		if (this._utf8) {
+			// Allow most things in UTF8 mode.
+			string = string.replace(/[\\<>]+/g, "");
+			return string;
+		}
 		string = string.replace(/[^A-Za-z0-9 ]/g, "");
 		return string;
 	};

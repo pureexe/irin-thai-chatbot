@@ -1,7 +1,7 @@
-// JavaScript Object Macro Examples
-
+// JavaScript Object Macro 
 ! version = 2.0
 
+// Easy Mathematic
 > object add javascript
 	// Demonstrats that JS objects can return numbers.
 	var a = args[0];
@@ -22,4 +22,107 @@
 +  * ลบ * [เท่า กับ|มี ค่า] [เท่า ไร]
 - <star1> - <star2> = <call>minus <star1> <star2></call>
 
+// Easy date/time
+// ประยุกจากไฟล์ date.aiml (อลิส 1.9)
+//ฟังก์ชันเกี่ยวกับเวลา เนื่อวจาก rivescript ไม่มีระบบเวลาของตัวเองและแปลเวลาเป็นรูปแบบไทย
+> object date javascript
+	var a = args[0];
+	var b = new Date();
+	if(a == "year"){
+		return b.getFullYear()+543;
+	}else if(a=="month"){
+		var c = b.getMonth();
+		if(c == 0){
+			return "มกราคม";
+		} else if(c == 1){
+			return "กุมภาพันธ์";
+		} else if(c == 2){
+			return "มีนาคม";
+		} else if(c == 3){
+			return "เมษายน";
+		} else if(c == 4){
+			return "พฤษภาคม";
+		} else if(c == 5){
+			return "มิถุนายน";
+		} else if(c == 6){
+			return "กรกฏาคม";
+		} else if(c == 7){
+			return "สิงหาคม";
+		} else if(c == 8){
+			return "กันยายน";
+		} else if(c == 9){
+			return "ตุลาคม";
+		} else if(c == 10){
+			return "พฤศจิกายน";
+		} else if(c == 11){
+			return "ธันวาคม";
+		}
+	}else if(a == "day"){
+		var c = b.getDay();
+		if(c == 0){
+			return "อาทิตย์";
+		} else if(c == 1){
+			return "จันทร์";
+		} else if(c == 2){
+			return "อังคาร";
+		} else if(c == 3){
+			return "พุธ";
+		} else if(c == 4){
+			return "พฤหัส";
+		} else if(c == 5){
+			return "ศุกร์";
+		} else if(c == 6){
+			return "เสาร์";
+		} 
+	} else if(a == "date"){
+		return b.getDate();
+	} else if(a == "hour"){
+		return b.getHours();
+	}else if(a == "minute"){
+		return b.getMinutes();
+	} else {
+		return "Invalid Date function";
+	}
+< object
++ [ปี นี้] ปี อะไร [*]
+- ปีนี้ปี<call>date year</call>ค่ะ
 
++ [เดือน นี้] เดือน [อะไร] [*]
+- เดือนนี้เดือน<call>date month</call>ค่ะ
+
++ [วัน นี้] วัน [อะไร] [*]
+- วันนี้วัน<call>date day</call>ค่ะ
+
++ [วัน นี้] วัน ที่ [เท่า ไร] [*]
+- วันนี้วันที่ <call>date date</call> ค่ะ
+
++ [วัน นี้] วัน [อาทิตย์|จันทร์|อังคาร|พุธ|พฤหัส|ศุกร์|พฤหัสบดี|เสาร์] ใช่ ไหม
+- วันนี้วัน<call>date day</call>ค่ะ
+
++ [*] เวลา [*]
+- ตอนนี้เวลา <call>date hour</call>นาฬิกา <call>date minute</call>นาทีค่ะ
+
++ [*] กี่ โมง [*]
+- ตอนนี้เวลา <call>date hour</call>นาฬิกา <call>date minute</call>นาทีค่ะ
+
+
+
+
+
+
+
+
+
+
+// Easy Random
+> object randomselect javascript
+	var parts = args.join(" ").split("::");
+	var a = Math.floor((Math.random() * 10)%2);
+	if(a==0){
+		return parts[0].split(" ").join("");
+	}else{
+		return parts[1].split(" ").join("");
+	}
+< object
++ [<bot name>|เธอ] [ช่วย] เลือก [ระหว่าง] * กับ * 
+- <bot name> เลือก "<call>randomselect <star1>::<star2></call>" ค่ะ

@@ -71,7 +71,6 @@ rs.loadDirectory("brain");
 rs.loadFile([
 	"../brain/spellcheck.rive",
 	"../brain/irin.rive",
-	"../brain/date.rive",
 	"../brain/javascript.rive"
 	], on_load_success, on_load_error);
 
@@ -94,7 +93,7 @@ function cutthai(msg){
         msg = msg.substr(0,msg.length-1);
     }
     msg = wordcut.cut(msg);
-    console.log(msg);
+    //console.log(msg);
     msg = msg.replace(/\|/g," ");
     msg = msg.replace("   "," ");
     return msg;

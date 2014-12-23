@@ -16,3 +16,9 @@
 
 + (ตอน นี้|ที่) * (ฝน ตก|หนาว|ร้อน) [ไหม]
 - WebApi:weather:<star2>:temp
+
++ (ล้าง|เคลียร์|ทำ ความ สะอาด) [หน้า] จอ
+- WebApi:clearscreen
+
++ [<bot name>] * แปล ว่า
+- WebApi:translate:<star1>
