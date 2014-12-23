@@ -70,7 +70,11 @@ function WebApiBundle(reply){
 		botprint("กำลังเชื่่อมต่อระบบแปลภาษา...","loading");
 		$.getJSON( "https://log.pureapp.in.th/translate/api.php?text="+rep[1]+"&to=th&callback=translatecomplete", function( data ) {
 			if(data.status=="SUCCESS"){
-				botprint("แปลว่า \""+data.translation+"\" ค่ะ")
+				var str=data.translation;
+				if(str.charAt(str.length-1)==" "){
+					str=str.substring(0, str.length - 1);
+				}
+				botprint("แปลว่า \""+str+"\" ค่ะ")
 			}else{
 				botprint("ขออภัยค่ะ ระบบแปลภาษาเกิดการขัดข้องกรุณาติดต่อผู้ดูแลของไอรินด่วนเลยค่ะ");
 			}
