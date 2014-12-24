@@ -4,12 +4,12 @@ function WebApiBundle(reply){
     if(rep[0] == "weather"){
         if(rep[1]=="here"){
             if (!navigator.geolocation){
-                botprint("เบาวเซอร์ของท่านเก่าเกินกว่าที่ไอรินจะหาตำแหน่งของท่านพบค่ะ");
+                botprint("เบาวเซอร์ของท่านเก่าเกินกว่าที่"+bot.name+"จะหาตำแหน่งของท่านพบค่ะ");
             }else{
                 if(isAndroid()){
                     botprint("loading...","loading");
                 }else{
-                    botprint("กรุณาอนุญาติให้ไอรินเข้าถึงตำแหน่งของคุณด้วยค่ะ","loading");
+                    botprint("กรุณาอนุญาติให้"+bot.name+"เข้าถึงตำแหน่งของคุณด้วยค่ะ","loading");
                 }
                 navigator.geolocation.getCurrentPosition(function(position){
                         $.get("http://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
@@ -29,11 +29,11 @@ function WebApiBundle(reply){
                                 }
                                 botremove("loading");
                             }).fail(function() {
-                                botprint("ขออภัยค่ะ ไอรินต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
+                                botprint("ขออภัยค่ะ "+bot.name+"ต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
                                 botremove("loading");
                             });
                     }, function(){
-                        botprint("ขออภัยคะ ไอรินไม่สามารถหาตำแหน่งของท่านได้");
+                        botprint("ขออภัยคะ "+bot.name+"ไม่สามารถหาตำแหน่งของท่านได้");
                 });
             }
         }else{
@@ -57,7 +57,7 @@ function WebApiBundle(reply){
                     }
                            botremove("loading");
                     }).fail(function() {
-                        botprint("ขออภัยค่ะ ไอรินต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
+                        botprint("ขออภัยค่ะ "+bot.name+"ต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
                         console.log("fail");
                            botremove("loading");
                     });
@@ -76,13 +76,26 @@ function WebApiBundle(reply){
 				}
 				botprint("แปลว่า \""+str+"\" ค่ะ")
 			}else{
-				botprint("ขออภัยค่ะ ระบบแปลภาษาเกิดการขัดข้องกรุณาติดต่อผู้ดูแลของไอรินด่วนเลยค่ะ");
+				botprint("ขออภัยค่ะ ระบบแปลภาษาเกิดการขัดข้องกรุณาติดต่อผู้ดูแลของ"+bot.name+"ด่วนเลยค่ะ");
 			}
 			botremove("loading");
 		}).fail(function() {
-			botprint("ขออภัยค่ะ ไอรินต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
+			botprint("ขออภัยค่ะ "+bot.name+"ต้องการอินเตอร์เน็ตเพื่อเข้าถึงข้อมูลค่ะ");
             botremove("loading");
   		});
+	} else if(rep[0]=="battery"){
+		if(navigator.getBattery){
+			navigator.getBattery().then(function(battery) {
+				var dmsg = "";
+				if(battery.dischargingTime/3600>=1){
+					dmsg+= " "+Math.floor(battery.dischargingTime/3600)+" ชั่วโมง";
+				}
+				dmsg+= " "+Math.floor((battery.dischargingTime-(Math.floor(battery.dischargingTime/3600)*3600))/60)+" นาที";
+				botprint("ขณะนี้ปริมาแบตเตอรี่เหลือ "+battery.level*100+"% ใช้ได้อีก"+dmsg+"ค่ะ");
+			});
+		}else{
+			botprint("ขออภัยค่ะ "+bot.name+"ไม่พบแบตเตอรี่บนอุปกรณ์นี้");
+		}
 	}
 }
 

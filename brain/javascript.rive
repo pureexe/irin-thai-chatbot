@@ -15,12 +15,19 @@
 	return parseInt(a) - parseInt(b);
 < object
 
+> object power javascript
+	return Math.pow(parseInt(args[0]),parseInt(args[1]))
+< object
+
 
 +  * บวก * [เท่า กับ|มี ค่า] [เท่า ไร]
 - <star1> + <star2> = <call>add <star1> <star2></call>
 
 +  * ลบ * [เท่า กับ|มี ค่า] [เท่า ไร]
 - <star1> - <star2> = <call>minus <star1> <star2></call>
+
++ * ยก กำลัง * [เท่า กับ|มี ค่า] [เท่า ไร]
+- <star1> ยกกำลัง <star2> = <call>power <star1> <star2></call>
 
 // Easy date/time
 // ประยุกจากไฟล์ date.aiml (อลิส 1.9)

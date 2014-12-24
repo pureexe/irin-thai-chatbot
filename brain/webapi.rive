@@ -20,5 +20,17 @@
 + (ล้าง|เคลียร์|ทำ ความ สะอาด) [หน้า] จอ
 - WebApi:clearscreen
 
-+ [<bot name>] * แปล ว่า
+// TranslateAPI
++ [<bot name>] * แปล ว่า [อะไร]
 - WebApi:translate:<star1>
+
+// BatteryAPI
++ พลัง งาน ที่ เหลือ อยู่
+@ แบต
+
++ แบตเตอรี่
+@ แบต
+
++ แบต
+- WebApi:battery
+

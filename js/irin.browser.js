@@ -1,5 +1,8 @@
-var botname = "ไอริน";
-var botauthor = "เพียว";
+
+var bot = function(){
+	this.name="ไอริน";
+	this.author = "เพียว";
+}
 // Generate Unique ID for Error log tracking
 var uniqueid = 'xxxxxxxxxxx7a2exxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
