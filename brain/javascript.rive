@@ -19,7 +19,6 @@
 	return Math.pow(parseInt(args[0]),parseInt(args[1]))
 < object
 
-
 +  * บวก * [เท่า กับ|มี ค่า] [เท่า ไร]
 - <star1> + <star2> = <call>add <star1> <star2></call>
 
@@ -113,14 +112,6 @@
 - ตอนนี้เวลา <call>date hour</call>นาฬิกา <call>date minute</call>นาทีค่ะ
 
 
-
-
-
-
-
-
-
-
 // Easy Random
 > object randomselect javascript
 	var parts = args.join(" ").split("::");
@@ -133,3 +124,17 @@
 < object
 + [<bot name>|เธอ] [ช่วย] เลือก [ระหว่าง] * กับ * 
 - <bot name> เลือก "<call>randomselect <star1>::<star2></call>" ค่ะ
+
+
+/*
+// RPS
+> object RPS javascript
+	var a = arg[0];
+< object
++ เป่า ยิง  ฉ ุบ
+- กรุณาเลือก ค้อน,กรรไกร,กระดาษ
+
+% กรุณาเลือก ค้อน,กรรไกร,กระดาษ
++ ค้อน
+- <call>RPS <star1></call>
+*/
