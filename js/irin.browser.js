@@ -68,7 +68,7 @@ function sendMSG(word){
         msg = $("#msg-in").val();
         $("#msg-in").val("");
     }
-	 $("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='https://placehold.it/50/FA6F57/fff&text=ME' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
+	 $("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='image/me.gif' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
 	try {
 		var reply = rs.reply("user", cutthai(msg));
 		reply = reply.replace(/\n/g, "<br>");
