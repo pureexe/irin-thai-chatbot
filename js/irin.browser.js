@@ -68,6 +68,9 @@ function sendMSG(word){
         msg = $("#msg-in").val();
         $("#msg-in").val("");
     }
+	if(msg==""){
+		return ;
+	}
 	 $("#chat-display").append("<li class='right clearfix'><span class='chat-img pull-right'><img src='image/me.gif' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='pull-right primary-font'>ฉัน</strong></div><br><p class='pull-right'>"+msg+"</p></div></li>")
 	try {
 		var reply = rs.reply("user", cutthai(msg));
