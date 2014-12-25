@@ -7,7 +7,7 @@ function WebApiBundle(reply){
                 botprint("เบาวเซอร์ของท่านเก่าเกินกว่าที่"+bot.name+"จะหาตำแหน่งของท่านพบค่ะ");
             }else{
                 if(isAndroid()){
-                    botprint("loading...","loading");
+                    botprint("กำลังเชื่่อมต่อระบบสภาพอากาศ...","loading");
                 }else{
                     botprint("กรุณาอนุญาติให้"+bot.name+"เข้าถึงตำแหน่งของคุณด้วยค่ะ","loading");
                 }
@@ -37,12 +37,12 @@ function WebApiBundle(reply){
                 });
             }
         }else{
-            botprint("loading...","loading");
+            botprint("กำลังเชื่่อมต่อระบบสภาพอากาศ...","loading");
             var loc = rep[1].replace(/ /g,'');
             if(loc=="กรุงเทพ"){
              loc = "กรุงเทพฯ";
             }
-           $.get("http://api.openweathermap.org/data/2.5/weather?q="+loc+",th")
+           $.get("https://api.irin.in.th/weather.php?q="+loc+",th")
                 .done(function(data){
                     if(rep[2]=="all"){
                         var weat="";
