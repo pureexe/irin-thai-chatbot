@@ -86,7 +86,7 @@ function sendMSG(word){
             reply = reply.substring(7,reply.length);
             WebApiBundle(reply);
         }else{
-            $.get("https://api.irin.in.th/irin/add.php?c="+msg+"&p="+reply+"&uid="+uniqueid); // For Loging system
+            $.get("https://api.irin.in.th/log/add.php?c="+msg+"&p="+reply+"&uid="+uniqueid); // For Loging system
             botprint(reply);
         }
 	} catch(e) {
