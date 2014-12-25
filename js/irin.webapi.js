@@ -12,7 +12,7 @@ function WebApiBundle(reply){
                     botprint("กรุณาอนุญาติให้"+bot.name+"เข้าถึงตำแหน่งของคุณด้วยค่ะ","loading");
                 }
                 navigator.geolocation.getCurrentPosition(function(position){
-                        $.get("http://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
+                        $.get("https://api.irin.in.th/weather.php?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
                             .done(function(data){
                                 if(rep[2]=="all"){
                                     var weat="";
