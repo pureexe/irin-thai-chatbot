@@ -42,10 +42,10 @@ function WebApiBundle(reply){
             if(loc=="กรุงเทพ"){
              loc = "กรุงเทพฯ";
             }
-           $.get("https://api.irin.in.th/weather.php?q="+loc+",th")
+           $.getJSON("https://api.irin.in.th/weather.php?q="+loc+",th")
                 .done(function(data){
                     if(rep[2]=="all"){
-                        var weat="";
+					    var weat="";
                         data.weather.forEach(function(r){
                             weat+=weathearcode(""+r.id)+"/";
                         });
