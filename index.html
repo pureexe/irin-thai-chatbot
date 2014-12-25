@@ -37,8 +37,8 @@
         <a href="javascript:void(0)" class="dropdown-toggle navbar-link" data-toggle="dropdown" ><h3 class="mdi-navigation-more-vert"></h3></a>
                 <ul class="dropdown-menu">
                     <li><a href="https://goo.gl/forms/nqq95wtwjC" target="_blank">สอนศัพท์ใหม่</a></li>
-                    <li><a href="https://about.me/PakkaponPH" target="_blank">สร้างโดย pureexe</a></li>
-                    <li><a href="https://github.com/pureexe/irin-thai-chatbot" target="_blank">ดาวน์โหลดโค้ด</a></li>
+                    <li><a href="https://goo.gl/forms/WcMIgtXwCZ" target="_blank">แจ้งปัญหา</a></li>
+                    <li><a href="https://irin.in.th" target="_blank">กลับหน้าหลัก</a></li>
 
                 </ul>
         
@@ -64,10 +64,6 @@
                 </div>
                 <div class="panel-footer">
                     <div class="input-group">
-           				<!-- <span class="input-group-btn">
-                            <a class="btn btn-default btn-sm btn-raised" id="btn-chat" href="https://goo.gl/forms/nqq95wtwjC" target="_blank">
-								สอนศัพท์ใหม่</a>
-                        </span> -->
 						<input id="msg-in" type="text" class="form-control input-sm" placeholder="Loading..." disabled/>
                         <span class="input-group-btn" style="margin-left:5px;">
                             <button class="btn btn-success btn-raised" id="btn-chat" onclick="sendMSG()">
@@ -78,6 +74,10 @@
             </div>
 
 </div>
-
+        <script>
+            $(document).ready(function() {
+                $.material.init();
+            });
+        </script>
 </body>
 </html>
