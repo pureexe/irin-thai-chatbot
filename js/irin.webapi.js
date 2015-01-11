@@ -12,7 +12,7 @@ function WebApiBundle(reply){
                     botprint("กรุณาอนุญาติให้"+bot.name+"เข้าถึงตำแหน่งของคุณด้วยค่ะ","loading");
                 }
                 navigator.geolocation.getCurrentPosition(function(position){
-                        $.getJSON("https://php.irin.in.th/weather.php?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
+                        $.getJSON("https://api.irin.in.th/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"")
                             .done(function(data){
                                 if(rep[2]=="all"){
                                     var weat="";
@@ -42,7 +42,7 @@ function WebApiBundle(reply){
             if(loc=="กรุงเทพ"){
              loc = "กรุงเทพฯ";
             }
-           $.getJSON("https://php.irin.in.th/weather.php?q="+loc+",th")
+           $.getJSON("https://api.irin.in.th/weather?q="+loc+",th")
                 .done(function(data){
                     if(rep[2]=="all"){
 					    var weat="";
@@ -68,7 +68,7 @@ function WebApiBundle(reply){
 		botprint('ล้างหน้าจอ เรียบร้อยแล้วค่ะ');
 	} else if(rep[0]=='translate'){
 		botprint("กำลังเชื่่อมต่อระบบแปลภาษา...","loading");
-		$.getJSON( "https://php.irin.in.th/translate/api.php?text="+rep[1]+"&to=th&callback=translatecomplete", function( data ) {
+		$.getJSON( "https://api.irin.in.th/translate/"+rep[1], function( data ) {
 			if(data.status=="SUCCESS"){
 				var str=data.translation;
 				if(str.charAt(str.length-1)==" "){
