@@ -90,6 +90,10 @@
 		return "Invalid Date function";
 	}
 < object
+
++ พศ
+- ปีนี้ปี<call>date year</call>ค่ะ
+
 + [ปี นี้] ปี อะไร [*]
 - ปีนี้ปี<call>date year</call>ค่ะ
 
