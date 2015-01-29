@@ -12,6 +12,7 @@
 ! var website  = www.pureapp.in.th
 ! var teachurl  = goo.gl/forms/nqq95wtwjC
 ! var favoritecolor = สีเขียวน้ำทะเล
+! var subject = เธอ|<bot name>
 
 
 // Tell the user stuff about ourself.
@@ -720,7 +721,7 @@
 + บ้า
 - <bot name>ไม่ได้บ้านะคะ
 
-+ [เธอ|<bot name>] น่า ถีบ [*]
++ [<bot subject>]น่า ถีบ [*]
 - ไม่ใช้ความรุนแรงสิคะ
 
 + ขำ * ไง ละ [*]
@@ -728,6 +729,10 @@
 
 + ไม่ มี ใคร สน ใจ [*]
 - ไม่ต้องเสียใจนะ<bot name>ยังอยู่ตรงนี้
+
++ [ผม|ฉัน|เรา|หนู] [ก็] [แค่] เป็น ห่วง [<bot name>] [เท่า นั้น เอง]
+- ขอบคุณที่เป็นห่วง<bot name>ค่ะ
+
 
 // Bad word block
 
