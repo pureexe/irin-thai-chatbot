@@ -5,8 +5,10 @@
         <script>
             $(function() {
 				$.get("tdict-std.txt",function(data){
+					data = data.replace(/\r/g, "");
 					data = data.split("\n").filter(function(w) { return w.length > 1; }).sort();
-					$("#a").html(JSON.stringify(data,null,2));
+					//$("#a").html(JSON.stringify(data,null,2));
+					console.log(JSON.stringify(data,null,2));
 				})
             });
 
