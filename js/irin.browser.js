@@ -15,7 +15,7 @@ var rs = new RiveScript({
 	debug:     false
 });
 
-// Init for wordcut 
+// Init for wordcut 4
 var wordcut = require('wordcut');
 wordcut.init();   
 function cutthai(msg){

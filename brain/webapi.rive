@@ -1,28 +1,8 @@
 ! version = 2.0
 // use for API support
 
-// weather api by openweathermap
-+ [สภาพ] อากาศ [วัน นี้]
-- WebApi:weather:here:all
-
-+ อุณหภูมิ [ตอน นี้|ขณะ นี้]
-- WebApi:weather:here:temp
-
-+ [สภาพ] อากาศ (ที่|ณ|บริเวณ|รอบ) *
-- WebApi:weather:<star2>:all
-
-+ อุณหภูมิ ที่ *
-- WebApi:weather:<star1>:temp
-
-+ (ตอน นี้|ที่) * (ฝน ตก|หนาว|ร้อน) [ไหม]
-- WebApi:weather:<star2>:temp
-
 + (ล้าง|เคลียร์|ทำ ความ สะอาด) [หน้า] จอ
 - WebApi:clearscreen
-
-// TranslateAPI
-+ [<bot name>] * แปล ว่า [อะไร]
-- WebApi:translate:<star1>
 
 // BatteryAPI
 + พลัง งาน ที่ เหลือ อยู่

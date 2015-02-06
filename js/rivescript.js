@@ -43,10 +43,10 @@ SOFTWARE.
 		var source = "this._objects[\"" + name + "\"] = function (rs, args) {\n"
 			+ code.join("\n")
 			+ "}\n";
-
 		try {
 			eval(source);
 		} catch (e) {
+			console.log("=====Error=====\n"+e.message+"\n======Source======\n"+source);
 			this._master.warn("Error evaluating JavaScript object: " + e.message);
 		}
 	};
@@ -56,6 +56,7 @@ SOFTWARE.
 	 *
 	 * Called by the RiveScript object to execute JavaScript code.
 	 */
+	
 	JsRiveObjects.prototype.call = function (rs, name, fields, scope) {
 		// Call the dynamic method.
 		var func = this._objects[name];
