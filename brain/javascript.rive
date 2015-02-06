@@ -207,7 +207,7 @@
 		weather = JSON.parse(weather);
 		var weat = "";
 		weather.weather.forEach(function(r){
-            weat+=weathearcode(""+r.id)+"/";
+            weat+=weathercode(""+r.id)+"/";
         });
 		weat = weat.substring(0,weat.length-1);
 		return "ขณะนี้ที่"+here+"อุณหภูมิ "+Math.round(weather.main.temp/10)+"°c "+weat+"ค่ะ";
