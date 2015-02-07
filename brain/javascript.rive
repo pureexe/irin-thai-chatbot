@@ -200,7 +200,7 @@
 	}
    	var weather = $.ajax({
 			type: "GET",
-        	url: "https://api.irin.in.th/weather?q="+here+",th",
+        	url: "https://service.irin.in.th/weather?q="+here+",th",
         	async: false
     }).responseText;
 	try{
@@ -231,7 +231,7 @@
 	var iserror = false;
 	var translate_word = $.ajax({
 			type: "GET",
-        	url: "https://api.irin.in.th/translate/"+word,
+        	url: "https://service.irin.in.th/translate/"+word,
         	async: false,
 			error: function(request, status, error){
         		iserror = true;
