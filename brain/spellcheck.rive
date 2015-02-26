@@ -50,6 +50,8 @@
 ! sub งุม   = อือ
 ! sub เซง   = เซ็ง
 ! sub 555+   = 555 
+! sub - -   = เงิบ
+! sub ?   = อะไร
 
 
 // Substitutions

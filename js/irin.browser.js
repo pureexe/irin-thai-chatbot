@@ -20,7 +20,7 @@ var wordcut = require('wordcut');
 wordcut.init();   
 function cutthai(msg){
     var lastchar = msg.charAt(msg.length - 1);
-    if(lastchar=="?"){
+    if(lastchar=="?"&&msg.length!=1){
         msg = msg.substr(0,msg.length-1);
     }
     msg = wordcut.cut(msg);

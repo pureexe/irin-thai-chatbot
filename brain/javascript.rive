@@ -1,4 +1,4 @@
-// JavaScript Object Macro 
+// JavaScript Object Macro
 ! version = 2.0
 
 // Easy Mathematic
@@ -34,6 +34,7 @@
 > object date javascript
 	var a = args[0];
 	var b = new Date();
+	b.setTime(b.getTime()-(new Date().getTimezoneOffset()*60*1000)-(420*60*1000));
 	if(a == "year"){
 		return b.getFullYear()+543;
 	}else if(a=="month"){
@@ -79,7 +80,7 @@
 			return "ศุกร์";
 		} else if(c == 6){
 			return "เสาร์";
-		} 
+		}
 	} else if(a == "date"){
 		return b.getDate();
 	} else if(a == "hour"){
@@ -126,7 +127,7 @@
 		return parts[1].split(" ").join("");
 	}
 < object
-+ [<bot name>|เธอ] [ช่วย] เลือก [ระหว่าง] * กับ * 
++ [<bot name>|เธอ] [ช่วย] เลือก [ระหว่าง] * กับ *
 - <bot name> เลือก "<call>randomselect <star1>::<star2></call>" ค่ะ
 
 
@@ -189,7 +190,7 @@
 				return "ลูกเห็บตก";
 		}
 		else{
-				return "สงบ";    
+				return "สงบ";
 		}
 		// คอยเช็คโค้ดใหม่ด้วย
 	}
@@ -214,7 +215,7 @@
 	}catch(e){
 		return "หนูไม่รู้จัก"+here+"ค่ะ";
 	}
-		
+
 < object
 
 + [สภาพ] อากาศ (ที่|ณ|บริเวณ|รอบ) *
