@@ -17,7 +17,7 @@ var rs = new RiveScript({
 
 // Init for wordcut 4
 var wordcut = require('wordcut');
-wordcut.init();   
+wordcut.init();
 function cutthai(msg){
     var lastchar = msg.charAt(msg.length - 1);
     if(lastchar=="?"&&msg.length!=1){
@@ -38,7 +38,7 @@ brainfile = ["brain/spellcheck.rive",
 if(isAndroid()){
     brainfile.push("brain/android.rive");
 }
- 
+
 rs.loadFile(brainfile, on_load_success, on_load_error);
 function on_load_success () {
 	$("#msg-in").removeAttr("disabled");
@@ -49,7 +49,7 @@ function on_load_success () {
 function on_load_error (err) {
 	console.log("Loading error: " + err);
 }
- 
+
 // check is runing on android;
 function isAndroid(){
     if(typeof Android !== "undefined") {
@@ -96,7 +96,7 @@ function sendMSG(word){
 }
 
 function botprint(reply,liid){
-	$("#chat-display").append("<li class='left clearfix' id='"+liid+"'><span class='chat-img pull-left'><img src='image/irin-thumb-50.png' alt='ไอริน' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>"+reply+"</p></div></li>");
+	$("#chat-display").append("<li class='left clearfix' id='"+liid+"'><span class='chat-img pull-left'><img src='image/irin-thumb-50.png' alt='"+bot.name+"' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>"+bot.name+"</strong></div><p>"+reply+"</p></div></li>");
                 if(isAndroid()){
                 $(window).scrollTop($('#chat-display').height());
             }else{
@@ -104,7 +104,7 @@ function botprint(reply,liid){
             }
 }
 function botloading(){
-	$("#chat-display").append("<li class='left clearfix' id='loading'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>ไอริน</strong></div><p>loading...</p></div></li>");
+	$("#chat-display").append("<li class='left clearfix' id='loading'><span class='chat-img pull-left'><img src='https://placehold.it/50/55C1E7/fff&text=IRIN' alt='User Avatar' class='img-circle' /></span><div class='chat-body clearfix'><div class='header'><strong class='primary-font'>"+bot.name+"</strong></div><p>loading...</p></div></li>");
             if(isAndroid()){
                 $(window).scrollTop($('#chat-display').height());
             }else{
