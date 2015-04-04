@@ -147,71 +147,16 @@
 // weather api by openweathermap
 > object weather_at javascript
 	var here = args.join("");
-	function weathercode(code){
-		if(code.charAt(0)=="2"){
-			return "มีพายุฝนฟ้าคะนอง";
-		}else if(code.charAt(0)=="3"){
-			return "ฝนตกปรอยๆ";
-		}else if(code.charAt(0)=="5"){
-			return "ฝนตก";
-		}else if(code.charAt(0)=="6"){
-			return "หิมะตก";
-		}else if(code == "701"||code == "721"||code == "741"){
-				return "หมอก";
-		}else if(code == "711"){
-			return "มีควัน";
-		}else if(code == "731"||code == "751"){
-				return "ทราย";
-		}else if(code == "761"||code == "771"){
-				return "ฝุ่น";
-		}else if(code == "761"){
-				return "เถ้าภูเขาไฟ";
-		}else if(code == "781"){
-				return "พายุหมุน";
-		}else if(code == "800"){
-				return "ฟ้าปลอดโปร่ง";
-		} else if(code=="801"){
-				return "มีเมฆเล็กน้อย";
-		}else if(code=="802"){
-				return "มีเมฆปานกลาง";
-		}else if(code=="803"){
-				return "มีเมฆมาก";
-		}else if(code=="804"){
-				return "มีเมฆเต็มฟ้า";
-		} else if(code=="900"||code=="901"||code=="902"){
-				return "มีพายุ";
-		} else if(code=="903"){
-				return "ร้อน";
-		} else if(code=="904"){
-				return "หนาว";
-		} else if(code=="905"){
-				return "ลมแรง";
-		} else if(code=="906"){
-				return "ลูกเห็บตก";
-		}
-		else{
-				return "สงบ";
-		}
-		// คอยเช็คโค้ดใหม่ด้วย
-	}
-	if(here=="กรุงเทพ"){
-		here = "กรุงเทพฯ";
-	}else if(here=="นี่"){
+ 	if(here=="นี่"){
 		return "หนูไม่สามารถหาตำแหน่งที่นี่ได้ค่ะ";
 	}
-   	var weather = $.ajax({
-			type: "GET",
-        	url: "https://service.irin.in.th/weather?q="+here+",th",
-        	async: false
-    }).responseText;
+ 	var weather = $.ajax({
+				type: "GET",
+      	url: "https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D"+here+")%20%20and%20u%3D%27c%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",
+      	sync: false
+    	}).responseText;
 	try{
-		weather = JSON.parse(weather);
-		var weat = "";
-		weather.weather.forEach(function(r){
-            weat+=weathercode(""+r.id)+"/";
-        });
-		weat = weat.substring(0,weat.length-1);
-		return "ขณะนี้ที่"+here+"อุณหภูมิ "+Math.round(weather.main.temp/10)+"°c "+weat+"ค่ะ";
+		return "ขณะนี้ที่"+here+"อุณหภูมิ "+weather.query.results.channel.item.condition.temp+"°c ค่ะ";
 	}catch(e){
 		return "หนูไม่รู้จัก"+here+"ค่ะ";
 	}
