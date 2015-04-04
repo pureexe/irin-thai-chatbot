@@ -158,6 +158,8 @@
 	try{
 		return "ขณะนี้ที่"+here+"อุณหภูมิ "+weather.query.results.channel.item.condition.temp+"°c ค่ะ";
 	}catch(e){
+	  consolr.log(e);
+		console.log(weather);
 		return "หนูไม่รู้จัก"+here+"ค่ะ";
 	}
 
