@@ -47,7 +47,7 @@ function sendMSG(){
 	}
 }
 function irinPrint(reply){
-	$("#chat-display").append("<div class='chatbox-parent-irin'><img src='image/irin-thumb-50.png' class='responsive-img circle irin-avatar'><div class='chatbox-irin'>"+reply+"</div></div>");
+	$("#chat-display").append("<div class='chatbox-parent-irin'><img src='image/irin-thumb.png' class='responsive-img circle irin-avatar'><div class='chatbox-irin'>"+reply+"</div></div>");
 	$("#chat-display").scrollTop($('#chat-display').prop("scrollHeight"));
 }
 
