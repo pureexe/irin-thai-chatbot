@@ -43,7 +43,8 @@
 		<script type="text/javascript" src="js/irin-browser.js"></script>
 		<script>
 			$(function() {
-				$(".dropdown-button").dropdown({ hover:true,constrain_width: false } );
+				var canhover = (typeof InstallTrigger == 'undefined');
+				$(".dropdown-button").dropdown({ hover:canhover,constrain_width: false } );
 			});
 		</script>
 	</body>
