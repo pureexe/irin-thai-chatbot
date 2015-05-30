@@ -1,0 +1,42 @@
+! version = 2.0
+// use for API support
+
+
+> object clearscreen javascript
+	$("#chat-display" ).empty();
+	return "เรียบร้อยแล้วค่ะ";
+< object
++ (ล้าง|เคลียร์|ทำ ความ สะอาด) [หน้า] จอ
+- <call>clearscreen</call>
+
+> object battery javascript
+	if(navigator.getBattery){
+			var batresult = "";
+			navigator.getBattery().then(function(battery) {
+				if(battery.charging){
+					irinPrint("ขณะนี้มีแบตเตอรี่ "+battery.level*100+"% ค่ะ");
+				}else{
+					var dmsg = "";
+					if(battery.dischargingTime/3600>=1){
+						dmsg+= " "+Math.floor(battery.dischargingTime/3600)+" ชั่วโมง";
+					}
+					dmsg+= " "+Math.floor((battery.dischargingTime-(Math.floor(battery.dischargingTime/3600)*3600))/60)+" นาที";
+					irinPrint("ขณะนี้ปริมาแบตเตอรี่เหลือ "+battery.level*100+"% ใช้ได้อีก"+dmsg+"ค่ะ");
+				}
+			});
+			return "-";
+	}else{
+			return "ขออภัยค่ะ ไม่พบแบตเตอรี่บนอุปกรณ์นี้ค่ะ";
+	}
+< object
+
+// BatteryAPI
++ พลัง งาน ที่ เหลือ อยู่
+@ แบต
+
++ แบตเตอรี่
+@ แบต
+
++ แบต
+- <call>battery</call>
+

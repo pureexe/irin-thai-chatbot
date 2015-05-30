@@ -1,83 +1,50 @@
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#00695C">
-
-    <title>คุยกับไอริน</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/chat-console.css">
-<link href="css/ripples.min.css" rel="stylesheet">
-<link href="css/material-wfont.min.css" rel="stylesheet">
-<style>
-</style>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/rivescript.js"></script>
-<script src="js/wordcut.min.js"></script>
-<script src="js/snackbar.min.js"></script>
-<script src="js/ripples.min.js"></script>
-<script src="js/material.min.js"></script>
-<script src="js/irin.browser.js"></script>
-<script src="js/irin.android.js"></script>
-<script src="js/irin.webapi.js"></script>
-
-</head>
-<body>
-<div class="container" style="max-width: 760px;">
-    <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-<div class="navbar navbar-default">
-    <div class="navbar-header pull-left">
-      <a class="navbar-brand" href="#" style="padding-top: 15px;">คุยกับไอริน</a>
-    </div>
-
-    <div class="navbar-header pull-right" style="margin-right:15px;">
-        <a href="javascript:void(0)" class="dropdown-toggle navbar-link" data-toggle="dropdown" ><h3 class="mdi-navigation-more-vert"></h3></a>
-                <ul class="dropdown-menu">
-                    <li><a href="https://goo.gl/forms/nqq95wtwjC" target="_blank">สอนศัพท์ใหม่</a></li>
-                    <li><a href="https://goo.gl/forms/WcMIgtXwCZ" target="_blank">แจ้งปัญหา</a></li>
-                    <li><a href="https://irin.in.th" >หน้าหลักไอริน</a></li>
-
-                </ul>
-        
-    </div>
-</div>
-                </div>
-                <div class="panel-body">
-                    <ul class="chat" id="chat-display">
-                        <li class="left clearfix">
-							<span class="chat-img pull-left">
-								<img src="image/irin-thumb-50.png" alt="ไอริน" class="img-circle" />
-							</span>
-							<div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">ไอริน</strong>
-                                </div>
-                                <p>
-									สวัสดีค่ะ หนูชื่อไอริน ยินดีที่พบกันนะคะ
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel-footer" style="width:100%;">
-                    <div class="input-group">
-						<input id="msg-in" type="text" class="form-control input-sm" placeholder="Loading..." disabled/>
-                        <span class="input-group-btn" style="margin-left:5px;">
-                            <button class="btn btn-success btn-raised" id="btn-chat" onclick="sendMSG()">
-                                <span class="mdi-content-send"></span></button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-</div>
-        <script>
-            $(document).ready(function() {
-                $.material.init();
-            });
-        </script>
-</body>
+<!DOCTYPE html>
+<html lang="th">
+	<head>
+		<title>คุยกับไอริน</title>
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="stylesheet" href="css/materialize.min.css">
+		<link rel="stylesheet" href="css/chatbox.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta charset="utf-8">
+	</head>
+	<body class="grey lighten-3">
+		<ul id="overflowmenu" class="dropdown-content">
+  			<li><a href="https://goo.gl/forms/nqq95wtwjC" target="_blank" style="font-size:100%">สอนศัพท์ใหม่</a></li>
+  			<li><a href="https://goo.gl/forms/WcMIgtXwCZ" target="_blank" style="font-size:100%">แจ้งปัญหา</a></li>
+			<li><a href="https://irin.in.th" style="font-size:100%">หน้าเว็บหลัก</a></li>
+		</ul>
+		<div class="container" style="height:100%;max-width:760px;width:100%;padding:0px !important;position: relative;">
+		  <nav class="z-depth-1" style="" >
+			<div class="nav-wrapper" style="">
+			  <a href="#" class="" style="margin-left:10px;font-size:130%">ไอริน</a>
+			  <ul id="nav-mobile" class="right">
+				<li><a class="dropdown-button" href="#!" data-activates="overflowmenu"><i class="mdi-navigation-more-vert" style="font-size:150%"></i></a></li>
+			  </ul>
+			</div>
+		  </nav>
+		  <div id="chat-display" class="white z-depth-1">
+			<div class="chatbox-parent-irin" style="margin-top:8px;">
+				<img src="image/irin-thumb.png" class="responsive-img circle irin-avatar" />
+				<div class="chatbox-irin">
+						สวัสดีค่ะ หนูชื่อไอริน ยินดีที่พบกันนะคะ
+				</div>
+			</div>
+		  </div>
+		  <div class="panel-footer grey lighten-4 z-depth-1" style="height:54px;width:100%;position:absolute;">
+			  <input class="" placeholder="กำลังโหลด..." id="chatinput" type="text" disabled>
+			  <a id="btn-send" class="waves-effect waves-light btn-large right" style="padding:0px;width:54px;background-color:#EE6E73"><i class="mdi-content-send"></i></a>
+		  </div>
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript" src="js/rivescript.js"></script>
+		<script type="text/javascript" src="js/wordcut.min.js"></script>
+		<script type="text/javascript" src="js/irin-browser.js"></script>
+		<script>
+			$(function() {
+				$(".dropdown-button").dropdown({ hover:true,constrain_width: false } );
+			});
+		</script>
+	</body>
 </html>
