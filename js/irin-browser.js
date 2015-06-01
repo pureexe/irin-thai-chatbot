@@ -37,7 +37,7 @@ function sendMSG(){
 	var msg = $("#chatinput").val();
 	$("#chatinput").val("");
 	if(msg!=""){
-		$("#chat-display").append("<div class='chatbox-parent-user'><div class='grey lighten-4 chatbox-user right'>"+msg+"</div></div>");
+		$("#chat-display").append("<div class='chatbox-parent-user'><div class='chatbox-user right'>"+msg+"</div></div>");
 		var reply = rs.reply("user", cutthai(msg));
 		if(reply!=""&&reply!="-"){
 			reply = reply.replace(/\n/g, "<br>");
